@@ -35,16 +35,16 @@ export class App extends Component {
     this.setState({ filter: event.target.value });
   };
 
-  componentDidMount() {
-    const contacts = localStorage.getItem('contacts');
-    this.setState({ contacts: JSON.parse(contacts) });
-  }
+  // componentDidMount() {
+  //   const contacts = localStorage.getItem('contacts');
+  //   this.setState({ contacts: JSON.parse(contacts) });
+  // }
 
-  componentDidUpdate(prevState) {
-    if (this.state.contacts !== prevState.contacts) {
-      localStorage.setItem('contacts', JSON.stringify(this.state.contacts));
-    }
-  }
+  // componentDidUpdate(prevState) {
+  //   if (this.state.contacts !== prevState.contacts) {
+  //     localStorage.setItem('contacts', JSON.stringify(this.state.contacts));
+  //   }
+  // }
   render() {
     const { contacts, filter } = this.state;
     const contactFilter = contacts.filter(contact =>
