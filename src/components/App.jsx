@@ -37,7 +37,9 @@ export class App extends Component {
 
   componentDidMount() {
     const contacts = localStorage.getItem('contacts');
-    this.setState({ contacts: JSON.parse(contacts) });
+    if (contacts) {
+      this.setState({ contacts: JSON.parse(contacts) });
+    }
   }
 
   componentDidUpdate(prevState) {
@@ -45,6 +47,7 @@ export class App extends Component {
       localStorage.setItem('contacts', JSON.stringify(this.state.contacts));
     }
   }
+
   render() {
     const { contacts, filter } = this.state;
     const contactFilter = contacts.filter(contact =>
