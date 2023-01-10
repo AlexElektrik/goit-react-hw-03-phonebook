@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import {
   CreateContactForm,
@@ -7,72 +7,67 @@ import {
   SubmitButton,
 } from './ContactForm.styled';
 
-class ContactForm extends Component {
-  state = {
-    name: '',
-    number: '',
-  };
+const ContactForm = ({ contacts, onSubmit }) => {
+  const [name, setName] = useState('');
+  const [number, setNumber] = useState('');
 
-  saveNewContact = event => {
-    const { name, number } = this.state;
+  const saveNewContact = event => {
     event.preventDefault();
     if (
-      !this.props.contacts.find(
-        contact =>
-          contact.name.toLocaleLowerCase() ===
-          this.state.name.toLocaleLowerCase()
+      !contacts.find(
+        contact => contact.name.toLocaleLowerCase() === name.toLocaleLowerCase()
       )
     ) {
-      this.props.onSubmit(name, number);
-      this.resetState();
+      onSubmit(name, number);
+      resetState();
     } else {
       alert(`${event.target.name.value} is already in contacts`);
     }
   };
 
-  resetState = () => {
-    this.setState({ name: '', number: '' });
+  const resetState = () => {
+    setName('');
+    setNumber('');
   };
 
-  handelChange = event => {
-    const { name, value } = event.currentTarget;
-    this.setState({ [name]: value });
+  const handelChangeName = event => {
+    setName(event.currentTarget.value);
   };
-
-  render() {
-    return (
-      <>
-        <CreateContactForm autoComplete="off" onSubmit={this.saveNewContact}>
-          <Label htmlFor="name">
-            <NameLable> Name</NameLable>
-            <input
-              value={this.state.name}
-              type="text"
-              name="name"
-              pattern="^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
-              title="Name may contain only letters, apostrophe, dash and spaces. For example Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan"
-              required
-              onChange={this.handelChange}
-            />
-          </Label>
-          <Label htmlFor="number">
-            <NameLable>Number</NameLable>
-            <input
-              value={this.state.number}
-              type="tel"
-              name="number"
-              pattern="\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}"
-              title="Phone number must be digits and can contain spaces, dashes, parentheses and can start with +"
-              required
-              onChange={this.handelChange}
-            />
-          </Label>
-          <SubmitButton> Add contact</SubmitButton>
-        </CreateContactForm>
-      </>
-    );
-  }
-}
+  const handelChangeNumber = event => {
+    setNumber(event.currentTarget.value);
+  };
+  return (
+    <>
+      <CreateContactForm autoComplete="off" onSubmit={saveNewContact}>
+        <Label htmlFor="name">
+          <NameLable> Name</NameLable>
+          <input
+            value={name}
+            type="text"
+            name="name"
+            pattern="^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
+            title="Name may contain only letters, apostrophe, dash and spaces. For example Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan"
+            required
+            onChange={handelChangeName}
+          />
+        </Label>
+        <Label htmlFor="number">
+          <NameLable>Number</NameLable>
+          <input
+            value={number}
+            type="tel"
+            name="number"
+            pattern="\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}"
+            title="Phone number must be digits and can contain spaces, dashes, parentheses and can start with +"
+            required
+            onChange={handelChangeNumber}
+          />
+        </Label>
+        <SubmitButton> Add contact</SubmitButton>
+      </CreateContactForm>
+    </>
+  );
+};
 
 export default ContactForm;
 
